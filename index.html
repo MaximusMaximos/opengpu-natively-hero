@@ -82,13 +82,14 @@
      poster layer (z0) is ALWAYS shown; the video (z1) covers it where it can autoplay;
      .hero__bg (z2) carries the dim + starfield overlays on top. */
   .hero__poster{
-    position:absolute;inset:0;z-index:0;
-    background:url('background-image.png') center / cover no-repeat;
-  }
+  position:absolute;inset:0;z-index:0;
+  background:url('background-image.png') bottom 35% / cover no-repeat;
+  pointer-events:none;
+}
   .hero__video{
     position:absolute;inset:0;z-index:1;
     width:100%;height:100%;
-    object-fit:cover;object-position:center;
+    object-fit:cover;object-position:right 10%;
     pointer-events:none;
   }
   .hero__bg{
@@ -389,8 +390,8 @@
     .connector{display:none}
   }
   @media (max-width:760px){
-    .hero__poster{background-position:center top}
-    .hero__bg::after{background:linear-gradient(180deg, rgba(4,8,20,0.55) 0%, rgba(4,8,20,0.28) 32%, rgba(4,8,20,0.28) 52%, rgba(4,8,20,0.88) 100%)}
+    .hero__poster{background-position:left center}
+    .hero__bg::after{background:linear-gradient(180deg, rgba(4,8,20,0.55) 0%, rgba(4,8,20,0.25) 26%, rgba(4,8,20,0.45) 60%, rgba(4,8,20,0.92) 84%, var(--bg) 100%)}
     .hero__inner{padding:0 20px}
     .nav__links,.nav__cta{display:none}
     .statusline{justify-content:flex-start;margin-top:14px}
