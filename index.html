@@ -124,7 +124,7 @@
     max-width:var(--maxw);
     margin:0 auto;
     padding:0 48px;
-    height:100vh;
+    min-height:100vh;
     display:flex;flex-direction:column;
   }
 
@@ -162,18 +162,18 @@
   .nav__cta:hover{transform:translateY(-1px);box-shadow:0 10px 30px -8px rgba(10,132,255,.7)}
 
   /* ===================== HEADLINE BLOCK ===================== */
-  .head{padding-top:clamp(18px,4.5vh,52px);max-width:760px}
+  .head{padding-top:clamp(6px,2vh,30px);max-width:760px}
 
   .eyebrow{
     font-family:var(--mono);font-size:.95rem;letter-spacing:.04em;
-    color:var(--blue);font-weight:500;margin-bottom:16px;
+    color:var(--blue);font-weight:500;margin-bottom:10px;
   }
 
   .headline{
     font-family:var(--display);font-weight:800;
-    font-size:clamp(2.3rem,4.4vw,3.6rem);
-    line-height:1.02;letter-spacing:-.03em;
-    color:#fff;margin-bottom:20px;
+    font-size:clamp(2.1rem,4vw,3.2rem);
+    line-height:1.03;letter-spacing:-.03em;
+    color:#fff;margin-bottom:12px;
   }
 
   .subhead{
@@ -183,7 +183,7 @@
   }
 
   /* ===================== FRONTIER MODELS STRIP ===================== */
-  .models{margin-top:24px;max-width:640px}
+  .models{margin-top:14px;max-width:640px}
   .models__label{
     font-family:var(--mono);font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;
     color:var(--muted);display:block;margin-bottom:11px;
@@ -220,7 +220,7 @@
   /* ===================== FLOW ===================== */
   .flow{
     margin-top:auto;
-    padding:0 0 clamp(20px,4vh,46px);
+    padding:0 0 clamp(12px,2.5vh,30px);
     display:flex;align-items:stretch;justify-content:space-between;
     gap:0;
   }
@@ -232,7 +232,7 @@
     backdrop-filter:blur(14px);
     border:1px solid var(--line);
     border-radius:20px;
-    padding:24px 26px 22px;
+    padding:20px 26px 18px;
     display:flex;flex-direction:column;
     transition:transform .25s ease, border-color .25s ease;
   }
