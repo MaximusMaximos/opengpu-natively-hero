@@ -10,9 +10,11 @@
   ASSETS — all wired to files sitting in the SAME folder as this index.html
   ============================================================
   WIRED:
-    background-image.png   → hero background
-    opengpu-logo.png       → nav mark + OpenGPU card (reused)
-    relay-logo.png         → Relay card
+    background-video.mp4    → hero background (looping video)
+    background-image.png    → video poster / reduced-motion fallback
+    OpenGPU-LOGO-black.png  → brand wordmark (top-left)
+    relay-logo.png          → Relay card
+    opengpu-logo.png        → OpenGPU card
   STILL TO ADD (slot shows a dashed placeholder until the file exists):
     natively-logo.png      → Natively card
 
@@ -76,24 +78,32 @@
     background:var(--bg);
   }
 
-  /* HERO BACKGROUND — your image goes here (assets/hero-bg.png).
-     Fallback gradient mimics the nebula/planet so it looks intentional until you add the file. */
-  .hero__bg{
+  /* HERO BACKGROUND — looping video (background-video.mp4), with background-image.png as poster.
+     The video sits at z0; .hero__bg (z1) carries the dim + starfield overlays on top of it. */
+  .hero__video{
     position:absolute;inset:0;z-index:0;
-    background:
-      radial-gradient(120% 90% at 82% 38%, rgba(10,80,150,0.40) 0%, rgba(6,14,32,0.0) 45%),
-      radial-gradient(60% 55% at 88% 42%, rgba(0,160,230,0.22) 0%, rgba(6,14,32,0) 60%),
-      radial-gradient(40% 40% at 90% 40%, rgba(0,233,255,0.10) 0%, rgba(6,14,32,0) 70%),
-      var(--bg);
-    background-image:url('background-image.png');   /* ← your background */
-    background-size:cover;
-    background-position:right center;
-    background-repeat:no-repeat;
+    width:100%;height:100%;
+    object-fit:cover;object-position:center;
+    pointer-events:none;
   }
-  /* dim the right edge so text stays readable over the image */
+  .hero__bg{
+    position:absolute;inset:0;z-index:1;
+    pointer-events:none;
+  }
+  /* dim the edges so text stays readable + add the premium cinematic scrim over the video */
   .hero__bg::after{
     content:"";position:absolute;inset:0;
-    background:linear-gradient(90deg, var(--bg) 22%, rgba(4,8,20,0.55) 48%, rgba(4,8,20,0.10) 70%, rgba(4,8,20,0.0) 100%);
+    background:
+      /* top + bottom dark fade — the premium vignette */
+      linear-gradient(to bottom,
+        rgba(2,4,10,0.62) 0%,
+        rgba(2,4,10,0.00) 24%,
+        rgba(2,4,10,0.00) 55%,
+        rgba(2,4,10,0.85) 100%),
+      /* subtle overall darken for mood + contrast */
+      linear-gradient(rgba(4,8,20,0.20), rgba(4,8,20,0.20)),
+      /* left-side readability dim behind the headline */
+      linear-gradient(90deg, var(--bg) 22%, rgba(4,8,20,0.55) 48%, rgba(4,8,20,0.10) 70%, rgba(4,8,20,0.0) 100%);
   }
   /* faint starfield specks */
   .hero__bg::before{
@@ -121,6 +131,7 @@
     padding:22px 0 0;
   }
   .brand{display:flex;align-items:center;gap:11px}
+  .brand__logo{height:56px;width:auto;display:block;object-fit:contain}
   .brand__mark{
     width:34px;height:34px;flex:0 0 34px;
     display:flex;align-items:center;justify-content:center;
@@ -163,7 +174,7 @@
   }
 
   .subhead{
-    font-size:clamp(1.05rem,1.5vw,1.32rem);
+    font-size:clamp(0.95rem,1.15vw,1.08rem);
     line-height:1.5;color:#C6D0E6;font-weight:400;
     max-width:560px;
   }
@@ -183,8 +194,8 @@
   .sl-item{color:var(--muted-dim);text-transform:uppercase;letter-spacing:.1em;font-size:.7rem}
   .sl-num{color:#DDE6FF;font-weight:600}
   .sl-sep{width:4px;height:4px;border-radius:50%;background:rgba(120,150,210,.35);flex:0 0 auto}
-  .sl-verify{display:inline-flex;align-items:center;gap:6px;color:var(--blue);font-weight:500;text-transform:uppercase;letter-spacing:.08em;font-size:.7rem;transition:color .2s ease}
-  .sl-verify:hover{color:#cfe2ff}
+  .sl-verify{display:inline-flex;align-items:center;gap:6px;color:#FFFFFF;font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:.7rem;transition:color .2s ease}
+  .sl-verify:hover{color:var(--cyan)}
 
   /* ===================== FLOW ===================== */
   .flow{
@@ -223,6 +234,9 @@
     margin-top:18px;font-weight:600;font-size:1rem;
     display:inline-flex;align-items:center;gap:8px;
   }
+  /* stretched link — the WHOLE card is clickable to its destination */
+  .card{cursor:pointer}
+  .card__cta::after{content:"";position:absolute;inset:0;z-index:2;border-radius:20px}
 
   /* per-card accent */
   .card--natively{--accent:#29CD83;--glow:rgba(41,205,131,.5)}   /* Natively BUILDER green */
@@ -355,6 +369,12 @@
     *{animation:none!important;transition:none!important}
     .reveal{opacity:1;transform:none}
     .settle-chip{display:none}
+    /* motion-sensitive users: drop the looping video, show the static image instead */
+    .hero__video{display:none}
+    .hero__bg{
+      background-image:url('background-image.png');
+      background-size:cover;background-position:right center;background-repeat:no-repeat;
+    }
   }
 
   /* ===================== RESPONSIVE ===================== */
@@ -385,6 +405,9 @@
 <body>
 
 <header class="hero">
+  <video class="hero__video" autoplay muted loop playsinline preload="auto" poster="background-image.png">
+    <source src="background-video.mp4" type="video/mp4">
+  </video>
   <div class="hero__bg"></div>
 
   <div class="hero__inner">
@@ -392,42 +415,29 @@
     <!-- ============ NAV ============ -->
     <nav class="reveal d1">
       <div class="brand">
-        <span class="brand__mark">
-          <!-- NAV LOGO -->
-          <img src="opengpu-logo.png" alt="OpenGPU"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <span class="ph" style="display:none">OGPU</span>
-        </span>
-        <span class="brand__name">OpenGPU</span>
+        <!-- BRAND LOGO → file: OpenGPU-LOGO-main.png (case-sensitive) -->
+        <img class="brand__logo" src="OpenGPU-LOGO-black.png" alt="OpenGPU"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block'">
+        <span class="brand__name" style="display:none">OpenGPU</span>
       </div>
-
-      <div class="nav__links">
-        <a href="#">Platform</a>
-        <a href="#">Providers</a>
-        <a href="#">Solutions</a>
-        <a href="#">Docs</a>
-        <a href="#">Company</a>
-      </div>
-
-      <a class="nav__cta" href="#">Join OpenGPU <span aria-hidden="true">↗</span></a>
     </nav>
 
     <!-- ============ TOP STATUS LINE (telemetry, right-aligned) ============ -->
     <div class="statusline reveal d2" aria-label="Network status">
       <span class="sl-live"><span class="live-dot"></span>LIVE</span>
       <span class="sl-sep"></span>
-      <span class="sl-item"><span class="sl-num js-tx">47,246,641</span> transactions</span>
+      <span class="sl-item"><span class="sl-num js-tx">47,524,646</span> transactions</span>
       <span class="sl-sep"></span>
-      <span class="sl-item"><span class="sl-num">26,995</span> today</span>
+      <span class="sl-item"><span class="sl-num js-today">25,573</span> today</span>
       <span class="sl-sep"></span>
-      <a class="sl-verify" href="#">Verified via OGPUSCAN <span aria-hidden="true">↗</span></a>
+      <a class="sl-verify" href="https://ogpuscan.io" target="_blank" rel="noopener">Verified via OGPUSCAN <span aria-hidden="true">↗</span></a>
     </div>
 
     <!-- ============ HEADLINE ============ -->
     <div class="head">
       <p class="eyebrow reveal d2">Build the Future of AI. Now.</p>
       <h1 class="headline reveal d2">Compute You<br>Can Verify</h1>
-      <p class="subhead reveal d3">Natively creates AI demand. Relay routes it. OpenGPU executes and settles it across distributed GPU infrastructure.</p>
+      <p class="subhead reveal d3">Natively drives AI demand. Relay routes it through one API. OpenGPU executes and settles it across distributed GPU infrastructure.</p>
     </div>
 
     <!-- ============ FLOW: Natively → Relay → OpenGPU ============ -->
@@ -442,10 +452,10 @@
           <span class="ph" style="display:none">NATIVELY LOGO</span>
         </div>
         <div class="card__name">Natively</div>
-        <div class="card__kicker">Demand Creation</div>
+        <div class="card__kicker">AI App Builder</div>
         <div class="card__rule"></div>
-        <p class="card__desc">Intent becomes AI applications and workloads.</p>
-        <a class="card__cta" href="#">Open Native Builder <span aria-hidden="true">↗</span></a>
+        <p class="card__desc">Where people build AI apps.</p>
+        <a class="card__cta" href="https://nativelyai.com" target="_blank" rel="noopener">Open Native Builder <span aria-hidden="true">↗</span></a>
       </div>
 
       <!-- connector 1 -->
@@ -468,10 +478,10 @@
           <span class="ph" style="display:none">RELAY LOGO</span>
         </div>
         <div class="card__name">Relay</div>
-        <div class="card__kicker">Inference Routing</div>
+        <div class="card__kicker">Model Marketplace</div>
         <div class="card__rule"></div>
-        <p class="card__desc">Applications become model demand.</p>
-        <a class="card__cta" href="#">Build with Relay <span aria-hidden="true">↗</span></a>
+        <p class="card__desc">Access every model through one API.</p>
+        <a class="card__cta" href="https://relaygpu.com" target="_blank" rel="noopener">Browse the models <span aria-hidden="true">↗</span></a>
       </div>
 
       <!-- connector 2 -->
@@ -487,7 +497,7 @@
 
       <!-- CARD 3 — OPENGPU (destination — points DOWN into the Deep Dive) -->
       <div class="card card--opengpu reveal d4">
-        <span class="settle-chip" aria-hidden="true"><span class="dot"></span>200 · settled</span>
+        <span class="settle-chip" aria-hidden="true"><span class="dot"></span><span class="js-settle">47,524,646</span> · settled</span>
         <div class="card__logo">
           <!-- OPENGPU CARD LOGO (reusing the nav mark) -->
           <img src="opengpu-logo.png" alt="OpenGPU"
@@ -495,10 +505,11 @@
           <span class="ph" style="display:none">OPENGPU LOGO</span>
         </div>
         <div class="card__name">OpenGPU</div>
-        <div class="card__kicker">Execution &amp; Settlement</div>
+        <div class="card__kicker">Core Protocol</div>
         <div class="card__rule"></div>
-        <p class="card__desc">Demand becomes settled compute.</p>
-        <a class="card__cta" href="#deep-dive">Explore the Deep Dive <span aria-hidden="true">↓</span></a>
+        <p class="card__desc">The protocol that powers it all. Every request executes and settles here, verifiably on-chain.</p>
+        <!-- Temporary: points to opengpu.network for now; repoint internally to the main protocol site later. -->
+        <a class="card__cta" href="https://opengpu.network" target="_blank" rel="noopener">Explore the protocol <span aria-hidden="true">↗</span></a>
       </div>
 
     </div>
@@ -508,17 +519,42 @@
 
 <script>
 (function(){
-  // Respect reduced-motion: leave everything static, don't run the loop.
+  var q = function(s){ return document.querySelector(s); };
+  var tx    = q('.js-tx');
+  var today = q('.js-today');
+  var settleNum = q('.js-settle');
+  var txVal = 47524646; // fallback seed; replaced by live OGPUSCAN data
+
+  function fmt(n){ return Number(n).toLocaleString('en-US'); }
+
+  // ---- live network stats from OGPUSCAN (Blockscout v2) ----
+  function loadStats(){
+    fetch('https://ogpuscan.io/api/v2/stats')
+      .then(function(r){ if(!r.ok) throw 0; return r.json(); })
+      .then(function(d){
+        if(d && d.total_transactions){
+          // never let the displayed total move backwards
+          txVal = Math.max(parseInt(d.total_transactions, 10) || 0, txVal);
+          if(tx) tx.textContent = fmt(txVal);
+          if(settleNum) settleNum.textContent = fmt(txVal);
+        }
+        if(d && d.transactions_today != null && today){
+          today.textContent = fmt(d.transactions_today);
+        }
+      })
+      .catch(function(){ /* keep last-known / static fallback */ });
+  }
+  loadStats();
+  setInterval(loadStats, 60000);   // re-sync to the real totals every minute
+
+  // ---- hero flow animation (skipped under reduced-motion) ----
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  var q = function(s){ return document.querySelector(s); };
   var nat  = q('.card--natively');
   var rel  = q('.card--relay');
   var ogpu = q('.card--opengpu');
   var seg1 = q('[data-seg="1"]');
   var seg2 = q('[data-seg="2"]');
-  var tx   = q('.js-tx');
-  var txVal = 47246641;
 
   // remove + re-add a class, forcing reflow so the animation restarts cleanly
   function restart(el, cls){
@@ -530,12 +566,13 @@
 
   // the payoff: the request clears on OpenGPU and the live counter ticks up
   function settle(){
-    restart(ogpu, 'settling');
     txVal += 1 + Math.floor(Math.random() * 3);
     if(tx){
-      tx.textContent = txVal.toLocaleString('en-US');
+      tx.textContent = fmt(txVal);
       restart(tx, 'tick');
     }
+    if(settleNum) settleNum.textContent = fmt(txVal);   // flash the real settled tx number
+    restart(ogpu, 'settling');
   }
 
   // one request: Natively → (seg1) → Relay → (seg2) → OpenGPU settle
