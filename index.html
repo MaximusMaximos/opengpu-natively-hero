@@ -40,7 +40,7 @@
     --blue:#0A84FF;
     --blue-deep:#0175CA;
     --cyan:#00E9FF;
-    --orange:#FFA033;       /* Relay accent — see note in chat about blue-vs-orange on this page */
+    --orange:#FFA033;
 
     --text:#E9EEFF;
     --muted:#8FA0C4;
@@ -82,10 +82,10 @@
      poster layer (z0) is ALWAYS shown; the video (z1) covers it where it can autoplay;
      .hero__bg (z2) carries the dim + starfield overlays on top. */
   .hero__poster{
-  position:absolute;inset:0;z-index:0;
-  background:url('background-image.png') bottom 35% / cover no-repeat;
-  pointer-events:none;
-}
+    position:absolute;inset:0;z-index:0;
+    background:url('background-image.png') bottom 35% / cover no-repeat;
+    pointer-events:none;
+  }
   .hero__video{
     position:absolute;inset:0;z-index:1;
     width:100%;height:100%;
@@ -100,15 +100,12 @@
   .hero__bg::after{
     content:"";position:absolute;inset:0;
     background:
-      /* top + bottom dark fade — the premium vignette */
       linear-gradient(to bottom,
         rgba(2,4,10,0.62) 0%,
         rgba(2,4,10,0.00) 24%,
         rgba(2,4,10,0.00) 55%,
         rgba(2,4,10,0.85) 100%),
-      /* subtle overall darken for mood + contrast */
       linear-gradient(rgba(4,8,20,0.20), rgba(4,8,20,0.20)),
-      /* left-side readability dim behind the headline */
       linear-gradient(90deg, var(--bg) 22%, rgba(4,8,20,0.55) 48%, rgba(4,8,20,0.10) 70%, rgba(4,8,20,0.0) 100%);
   }
   /* faint starfield specks */
@@ -185,6 +182,23 @@
     max-width:560px;
   }
 
+  /* ===================== FRONTIER MODELS STRIP ===================== */
+  .models{margin-top:24px;max-width:640px}
+  .models__label{
+    font-family:var(--mono);font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;
+    color:var(--muted);display:block;margin-bottom:11px;
+  }
+  .models__row{display:flex;flex-wrap:wrap;gap:8px}
+  .model-chip{
+    font-family:var(--mono);font-size:.74rem;font-weight:500;letter-spacing:.02em;
+    color:#D7E0F5;
+    border:1px solid var(--line-bright);
+    background:rgba(10,18,38,0.55);
+    backdrop-filter:blur(8px);
+    border-radius:999px;padding:5px 13px;white-space:nowrap;
+  }
+  .model-chip--more{color:var(--muted);border-style:dashed;background:transparent}
+
   /* ===================== TOP STATUS LINE (telemetry, top-right) ===================== */
   .statusline{
     display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:14px;
@@ -245,7 +259,7 @@
   .card__cta::after{content:"";position:absolute;inset:0;z-index:2;border-radius:20px}
 
   /* per-card accent */
-  .card--natively{--accent:#29CD83;--glow:rgba(41,205,131,.5)}   /* Natively BUILDER green */
+  .card--natively{--accent:#29CD83;--glow:rgba(41,205,131,.5)}
   .card--natively .card__kicker{color:#29CD83}
   .card--natively .card__cta{color:#29CD83}
 
@@ -289,7 +303,6 @@
   }
   .comet{opacity:0;filter:drop-shadow(0 0 5px #fff) drop-shadow(0 0 9px currentColor)}
 
-  /* fired by JS as the request crosses this segment */
   .connector.firing .conn-live{animation:draw .68s ease-out forwards}
   .connector.firing .comet{animation:comet .68s ease-in-out forwards}
 
@@ -305,7 +318,6 @@
     100%{cx:62px;opacity:0}
   }
 
-  /* node flare — each card lights as the request passes through it */
   .card.flaring{animation:flare .85s ease-out}
   @keyframes flare{
     0%{box-shadow:0 0 0 0 rgba(0,0,0,0)}
@@ -318,7 +330,6 @@
     30%{filter:drop-shadow(0 0 10px var(--accent));transform:translateY(-2px)}
   }
 
-  /* settle — the payoff: the request clears on OpenGPU */
   .settle-chip{
     position:absolute;top:20px;right:22px;
     font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;
@@ -343,7 +354,6 @@
     100%{opacity:0}
   }
 
-  /* live counter ticks up on each settle */
   .js-tx.tick{animation:tick .6s ease}
   @keyframes tick{
     0%{color:#DDE6FF}
@@ -351,7 +361,6 @@
     100%{color:#DDE6FF;text-shadow:none}
   }
 
-  /* placeholder shown when a logo file is missing */
   .ph{
     font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;color:var(--muted-dim);
     border:1px dashed rgba(120,150,210,0.4);border-radius:8px;
@@ -375,7 +384,6 @@
     *{animation:none!important;transition:none!important}
     .reveal{opacity:1;transform:none}
     .settle-chip{display:none}
-    /* motion-sensitive users: drop the looping video; the poster layer shows the static image */
     .hero__video{display:none}
   }
 
@@ -418,7 +426,6 @@
     <!-- ============ NAV ============ -->
     <nav class="reveal d1">
       <div class="brand">
-        <!-- BRAND LOGO → file: OpenGPU-LOGO-main.png (case-sensitive) -->
         <img class="brand__logo" src="OpenGPU-LOGO-black.png" alt="OpenGPU"
              onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block'">
         <span class="brand__name" style="display:none">OpenGPU</span>
@@ -443,13 +450,26 @@
       <p class="subhead reveal d3">Natively drives AI demand. Relay routes it through one API. OpenGPU executes and settles it across distributed GPU infrastructure.</p>
     </div>
 
+    <!-- ============ FRONTIER MODELS STRIP ============ -->
+    <div class="models reveal d3">
+      <span class="models__label">Frontier models, one API</span>
+      <div class="models__row">
+        <span class="model-chip">Claude</span>
+        <span class="model-chip">GLM-5.2</span>
+        <span class="model-chip">Grok</span>
+        <span class="model-chip">DeepSeek</span>
+        <span class="model-chip">Qwen</span>
+        <span class="model-chip">Seedance</span>
+        <span class="model-chip model-chip--more">+ more, always growing</span>
+      </div>
+    </div>
+
     <!-- ============ FLOW: Natively → Relay → OpenGPU ============ -->
     <div class="flow">
 
-      <!-- CARD 1 — NATIVELY (points OUT) -->
+      <!-- CARD 1 — NATIVELY -->
       <div class="card card--natively reveal d4">
         <div class="card__logo">
-          <!-- NATIVELY LOGO → add file named: natively-logo.png -->
           <img src="natively-logo.png" alt="Natively AI"
                onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block'">
           <span class="ph" style="display:none">NATIVELY LOGO</span>
@@ -472,10 +492,9 @@
         </svg>
       </div>
 
-      <!-- CARD 2 — RELAY (points OUT) -->
+      <!-- CARD 2 — RELAY -->
       <div class="card card--relay reveal d4">
         <div class="card__logo">
-          <!-- RELAY LOGO -->
           <img src="relay-logo.png" alt="Relay"
                onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block'">
           <span class="ph" style="display:none">RELAY LOGO</span>
@@ -498,11 +517,10 @@
         </svg>
       </div>
 
-      <!-- CARD 3 — OPENGPU (destination — points DOWN into the Deep Dive) -->
+      <!-- CARD 3 — OPENGPU -->
       <div class="card card--opengpu reveal d4">
         <span class="settle-chip" aria-hidden="true"><span class="dot"></span><span class="js-settle">47,524,646</span> · settled</span>
         <div class="card__logo">
-          <!-- OPENGPU CARD LOGO (reusing the nav mark) -->
           <img src="opengpu-logo.png" alt="OpenGPU"
                onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block'">
           <span class="ph" style="display:none">OPENGPU LOGO</span>
@@ -536,7 +554,6 @@
       .then(function(r){ if(!r.ok) throw 0; return r.json(); })
       .then(function(d){
         if(d && d.total_transactions){
-          // never let the displayed total move backwards
           txVal = Math.max(parseInt(d.total_transactions, 10) || 0, txVal);
           if(tx) tx.textContent = fmt(txVal);
           if(settleNum) settleNum.textContent = fmt(txVal);
@@ -548,7 +565,7 @@
       .catch(function(){ /* keep last-known / static fallback */ });
   }
   loadStats();
-  setInterval(loadStats, 60000);   // re-sync to the real totals every minute
+  setInterval(loadStats, 60000);
 
   // ---- best-effort: nudge the muted inline video to autoplay on mobile ----
   var heroVid = q('.hero__video');
@@ -568,7 +585,6 @@
   var seg1 = q('[data-seg="1"]');
   var seg2 = q('[data-seg="2"]');
 
-  // remove + re-add a class, forcing reflow so the animation restarts cleanly
   function restart(el, cls){
     if(!el) return;
     el.classList.remove(cls);
@@ -576,20 +592,18 @@
     el.classList.add(cls);
   }
 
-  // the payoff: the request clears on OpenGPU and the live counter ticks up
   function settle(){
     txVal += 1 + Math.floor(Math.random() * 3);
     if(tx){
       tx.textContent = fmt(txVal);
       restart(tx, 'tick');
     }
-    if(settleNum) settleNum.textContent = fmt(txVal);   // flash the real settled tx number
+    if(settleNum) settleNum.textContent = fmt(txVal);
     restart(ogpu, 'settling');
   }
 
-  // one request: Natively → (seg1) → Relay → (seg2) → OpenGPU settle
   function cycle(){
-    if(document.hidden) return;            // pause while tab is in the background
+    if(document.hidden) return;
     restart(nat, 'flaring');
     setTimeout(function(){ restart(seg1, 'firing'); }, 340);
     setTimeout(function(){ restart(rel,  'flaring'); }, 940);
@@ -597,7 +611,6 @@
     setTimeout(settle, 1840);
   }
 
-  // start after the entrance reveals settle, then run on a rhythm
   setTimeout(function(){
     cycle();
     setInterval(cycle, 5200);
