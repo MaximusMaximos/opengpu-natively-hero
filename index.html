@@ -171,51 +171,16 @@
 
   .headline{
     font-family:var(--display);font-weight:800;
-    font-size:clamp(2.1rem,4vw,3.2rem);
-    line-height:1.03;letter-spacing:-.03em;
-    color:#fff;margin-bottom:12px;
+    font-size:clamp(1.7rem,3.2vw,2.6rem);
+    line-height:1.06;letter-spacing:-.02em;
+    color:#fff;margin-bottom:18px;
   }
 
   .subhead{
-    font-size:clamp(0.95rem,1.15vw,1.08rem);
-    line-height:1.5;color:#C6D0E6;font-weight:400;
-    max-width:560px;
+    font-size:clamp(1rem,1.25vw,1.16rem);
+    line-height:1.62;color:#C6D0E6;font-weight:400;
+    max-width:660px;
   }
-
-  /* ===================== FRONTIER MODELS STRIP ===================== */
-  .models{margin-top:14px;max-width:640px}
-  .models__label{
-    font-family:var(--mono);font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;
-    color:var(--muted);display:block;margin-bottom:11px;
-  }
-  .models__row{display:flex;flex-wrap:wrap;gap:8px}
-  .model-chip{
-    font-family:var(--mono);font-size:.74rem;font-weight:500;letter-spacing:.02em;
-    color:#D7E0F5;
-    border:1px solid var(--line-bright);
-    background:rgba(10,18,38,0.55);
-    backdrop-filter:blur(8px);
-    border-radius:999px;padding:5px 13px;white-space:nowrap;
-  }
-  .model-chip--more{color:var(--muted);border-style:dashed;background:transparent}
-
-  /* ===================== TOP STATUS LINE (telemetry, top-right) ===================== */
-  .statusline{
-    display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:14px;
-    padding:12px 0 0;
-    font-family:var(--mono);
-  }
-  .sl-live{display:inline-flex;align-items:center;gap:7px;color:var(--cyan);font-weight:600;font-size:.76rem;letter-spacing:.14em}
-  .live-dot{
-    width:8px;height:8px;border-radius:50%;background:var(--cyan);
-    box-shadow:0 0 0 0 rgba(0,233,255,.55);
-    animation:pulse 2.4s infinite;
-  }
-  .sl-item{color:var(--muted-dim);text-transform:uppercase;letter-spacing:.1em;font-size:.7rem}
-  .sl-num{color:#DDE6FF;font-weight:600}
-  .sl-sep{width:4px;height:4px;border-radius:50%;background:rgba(120,150,210,.35);flex:0 0 auto}
-  .sl-verify{display:inline-flex;align-items:center;gap:6px;color:#FFFFFF;font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:.7rem;transition:color .2s ease}
-  .sl-verify:hover{color:var(--cyan)}
 
   /* ===================== FLOW ===================== */
   .flow{
@@ -402,7 +367,6 @@
     .hero__bg::after{background:linear-gradient(180deg, rgba(4,8,20,0.55) 0%, rgba(4,8,20,0.25) 26%, rgba(4,8,20,0.45) 60%, rgba(4,8,20,0.92) 84%, var(--bg) 100%)}
     .hero__inner{padding:0 20px}
     .nav__links,.nav__cta{display:none}
-    .statusline{justify-content:flex-start;margin-top:14px}
     .head{padding-top:36px}
     .flow{flex-direction:column;gap:16px;padding:36px 0 44px}
     .card,.card--opengpu{flex:1 1 auto;width:100%}
@@ -432,36 +396,11 @@
       </div>
     </nav>
 
-    <!-- ============ TOP STATUS LINE (telemetry, right-aligned) ============ -->
-    <div class="statusline reveal d2" aria-label="Network status">
-      <span class="sl-live"><span class="live-dot"></span>LIVE</span>
-      <span class="sl-sep"></span>
-      <span class="sl-item"><span class="sl-num js-tx">47,524,646</span> transactions</span>
-      <span class="sl-sep"></span>
-      <span class="sl-item"><span class="sl-num js-today">25,573</span> today</span>
-      <span class="sl-sep"></span>
-      <a class="sl-verify" href="https://ogpuscan.io" target="_blank" rel="noopener">Verified via OGPUSCAN <span aria-hidden="true">↗</span></a>
-    </div>
-
-    <!-- ============ HEADLINE ============ -->
+    <!-- ============ INTRO — the ecosystem relationship ============ -->
     <div class="head">
-      <p class="eyebrow reveal d2">Build the Future of AI. Now.</p>
-      <h1 class="headline reveal d2">Compute You<br>Can Verify</h1>
-      <p class="subhead reveal d3">Natively drives AI demand. Relay routes it through one API. OpenGPU executes and settles it across distributed GPU infrastructure.</p>
-    </div>
-
-    <!-- ============ FRONTIER MODELS STRIP ============ -->
-    <div class="models reveal d3">
-      <span class="models__label">Frontier models, one API</span>
-      <div class="models__row">
-        <span class="model-chip">Claude</span>
-        <span class="model-chip">GLM-5.2</span>
-        <span class="model-chip">Grok</span>
-        <span class="model-chip">DeepSeek</span>
-        <span class="model-chip">Qwen</span>
-        <span class="model-chip">Seedance</span>
-        <span class="model-chip model-chip--more">+ more, always growing</span>
-      </div>
+      <p class="eyebrow reveal d2">The OpenGPU Ecosystem</p>
+      <h1 class="headline reveal d2">Three products.<br>One pipeline.</h1>
+      <p class="subhead reveal d3">Natively creates AI demand. Relay provides one API to every frontier model. OpenGPU executes and settles every request across distributed GPU infrastructure.</p>
     </div>
 
     <!-- ============ FLOW: Natively → Relay → OpenGPU ============ -->
