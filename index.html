@@ -283,16 +283,26 @@
     100%{cx:62px;opacity:0}
   }
 
-  .card.flaring{animation:flare .85s ease-out}
-  @keyframes flare{
+  /* a request packet passing through a node — gentle and identical for all three,
+     so no node looks like it "powers" the others; the moving packet is the story */
+  .card.passing{animation:passing .7s ease-out}
+  @keyframes passing{
     0%{box-shadow:0 0 0 0 rgba(0,0,0,0)}
-    28%{box-shadow:0 0 48px -6px var(--glow), inset 0 0 30px -20px var(--accent)}
+    36%{box-shadow:0 0 24px -14px var(--glow)}
     100%{box-shadow:0 0 0 0 rgba(0,0,0,0)}
   }
-  .card.flaring .card__logo{animation:logoLift .85s ease-out}
-  @keyframes logoLift{
-    0%,100%{filter:none;transform:none}
-    30%{filter:drop-shadow(0 0 10px var(--accent));transform:translateY(-2px)}
+
+  /* demand arriving at Natively from outside — the first point of contact, not the source */
+  .intake{
+    position:absolute;left:-3px;top:50%;width:9px;height:9px;border-radius:50%;
+    background:#29CD83;box-shadow:0 0 9px #29CD83;
+    opacity:0;pointer-events:none;
+  }
+  .card--natively.intaking .intake{animation:intake .66s ease-out}
+  @keyframes intake{
+    0%{opacity:0;transform:translate(-14px,-50%)}
+    45%{opacity:1;transform:translate(-3px,-50%)}
+    100%{opacity:0;transform:translate(6px,-50%)}
   }
 
   .settle-chip{
@@ -408,6 +418,7 @@
 
       <!-- CARD 1 — NATIVELY -->
       <div class="card card--natively reveal d4">
+        <span class="intake" aria-hidden="true"></span>
         <div class="card__logo">
           <img src="natively-logo.png" alt="Natively AI"
                onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block'">
@@ -543,17 +554,18 @@
 
   function cycle(){
     if(document.hidden) return;
-    restart(nat, 'flaring');
-    setTimeout(function(){ restart(seg1, 'firing'); }, 340);
-    setTimeout(function(){ restart(rel,  'flaring'); }, 940);
-    setTimeout(function(){ restart(seg2, 'firing'); }, 1240);
-    setTimeout(settle, 1840);
+    restart(nat, 'intaking');                                   // demand arrives at Natively (first point of contact)
+    setTimeout(function(){ restart(nat, 'passing'); },  300);   // request passes through — gentle, no ignition
+    setTimeout(function(){ restart(seg1, 'firing');  },  560);  // travels Natively → Relay
+    setTimeout(function(){ restart(rel,  'passing'); }, 1180);  // routes through Relay
+    setTimeout(function(){ restart(seg2, 'firing');  }, 1440);  // travels Relay → OpenGPU
+    setTimeout(settle, 2060);                                   // executes & settles on OpenGPU
   }
 
   setTimeout(function(){
     cycle();
-    setInterval(cycle, 5200);
-  }, 1300);
+    setInterval(cycle, 4200);
+  }, 1100);
 })();
 </script>
 
